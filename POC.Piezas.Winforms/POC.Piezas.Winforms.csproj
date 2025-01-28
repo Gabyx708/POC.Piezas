@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\POC.Piezas.Application\POC.Piezas.Application.csproj" />
+    <ProjectReference Include="..\POC.Piezas.Infrastructure\POC.Piezas.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
