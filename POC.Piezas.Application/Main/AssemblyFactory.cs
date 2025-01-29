@@ -34,6 +34,8 @@ namespace POC.Piezas.Application.Implementation
            
             foreach (var root in rootAssemblies)
             {
+                var rootImage = _items.FirstOrDefault(item => item.GetName() == root.GetName())?.GetImage();
+                root.SetImage(rootImage);
                 BuildChildren(root);
             }
 
@@ -44,25 +46,44 @@ namespace POC.Piezas.Application.Implementation
         {
             var parentName = parent.GetName();
             var children = _items
-                .Where(item => item.GetName().StartsWith(parentName + ","))
-                .Select(item => new Assembly(item.GetName()))
+                .Where(item => IsDirectChild(item.GetName(), parentName))
+                .Select(item => CreateParts(item))
                 .ToList();
 
             foreach (var child in children)
             {
                 parent.AddPart(child);
-                BuildChildren(child);
+                BuildChildren(child); // Llamada recursiva para construir los hijos del hijo
             }
         }
+
+        private bool IsDirectChild(string childName, string parentName)
+        {
+            // Verificar si el nombre del hijo tiene un nivel más que el del padre
+            var parentParts = parentName.Split(',');
+            var childParts = childName.Split(',');
+
+            return childParts.Length == parentParts.Length + 1 && childName.StartsWith(parentName + ",");
+        }
+
 
         private List<Assembly> GetRootsAssemblies()
         {
             var rootItemNames = _items
-               .Select(item => item.GetName())
-               .Where(name => !name.Contains(","))
+               .Where(bomItem => !bomItem.GetName().Contains(","))
                .ToList();
 
-            return rootItemNames.Select(name => new Assembly(name)).ToList();
+            return rootItemNames.Select(item => CreateParts(item)).ToList();
+        }
+
+        private Assembly CreateParts(BomItem item)
+        {
+            var assemb = new Assembly(item.GetName());
+
+            assemb.SetData(item);
+            assemb.SetImage(item.GetImage());
+
+            return assemb;
         }
 
     }

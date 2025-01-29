@@ -48,9 +48,33 @@ namespace POC.Piezas.Models.BomAggregate
             return _item;
         }
 
+        public string GetPartNumber()
+        {
+            return _partNumber;
+        }
+
+        public string GetMaterial()
+        {
+            return _material;
+        }
+
+        public string GetDestiny()
+        {
+            return _destino;
+        }
+
+        public int GetQuantity()
+        {
+            return _quantity;
+        }
         public void SetImagen(byte[] imageBytes)
         {
             this._thumbnail = imageBytes;
+        }
+
+        public byte[]? GetImage()
+        {
+            return _thumbnail;
         }
     }
 }

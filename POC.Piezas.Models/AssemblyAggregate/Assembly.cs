@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POC.Piezas.Models.BomAggregate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace POC.Piezas.Models.AssemblyAggregate
     {
         private readonly string _assemblyName;
         private List<Assembly> _assemblyParts;
+        private BomItem _data;
+
+        private byte[]? _assemblyImage;
 
         public Assembly(string name)
         {
@@ -34,6 +38,26 @@ namespace POC.Piezas.Models.AssemblyAggregate
         public bool IsPart()
         {
             return _assemblyParts.Count > 0;
+        }
+
+        public void SetImage(byte[] image)
+        {
+            _assemblyImage = image;
+        }
+
+        public void SetData(BomItem data)
+        {
+            _data = data;
+        }
+
+        public BomItem GetData()
+        {
+            return _data ?? throw new InvalidDataException();
+        }
+
+        public byte[]? GetImage()
+        {
+            return _assemblyImage ?? null;
         }
     }
 }
